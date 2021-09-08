@@ -1,4 +1,4 @@
-# Laboratorio 4
+# Laboratorio 4 - Hangman
 
 ### Parte I
 
