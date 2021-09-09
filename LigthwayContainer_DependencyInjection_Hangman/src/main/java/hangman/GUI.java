@@ -12,7 +12,8 @@ import java.awt.*;
 import static hangman.SwingProject.CONTRIBUTORS;
 import static hangman.SwingProject.PROJECT_NAME;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class GUI {
 
     public static final String SCORE_NUMBER[] = {
@@ -33,6 +34,7 @@ public class GUI {
     private Language language;
     private HangmanDictionary dictionary;
     private HangmanPanel hangmanPanel;
+    private GameScore score;
 
     private MainFrameController mainFrameController;
 
@@ -52,10 +54,11 @@ public class GUI {
 
     @Inject
     // Use Guice constructor
-    public GUI(Language language, HangmanDictionary dictionary, HangmanPanel hangmanPanel){
+    public GUI(Language language, HangmanDictionary dictionary, HangmanPanel hangmanPanel, GameScore score){
         this.language = language;
         this.dictionary= dictionary;
         this.hangmanPanel = hangmanPanel;
+        this.score = score;
     }
 
     //method: setup
@@ -119,7 +122,12 @@ public class GUI {
     //then set the whole thing visible
     private void setupAndStart(){
         javax.swing.SwingUtilities.invokeLater(() -> {
-            setup();
+                try{
+                        setup();
+                }
+                catch (HangmanException ex){
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);    
+                }
             mainFrameController.changeVisibleCard(SPLASH_KEY);
             mainFrameController.getFrame().setVisible(true);
         });
